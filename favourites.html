@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="index.css" />
+  </head>
+  <body>
+    <h1>Favourites Page</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>Task</th>
+          <th>Priority</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- add code here -->
+      </tbody>
+    </table>
+  </body>
+</html>
+<script>
+  let fav = JSON.parse(localStorage.getItem("favourites"));
+  displayTable(fav);
+
+  function displayTable(fav) {
+    document.querySelector("tbody").innerHTML = "";
+    fav.forEach(function (elem, i) {
+      let row = document.createElement("tr");
+      let td1 = document.createElement("td");
+      td1.innerText = fav[i].taskName;
+      let td2 = document.createElement("td");
+      td2.innerText = fav[i].taskPriority;
+      if (fav[i].taskPriority == "High") {
+        td2.style.backgroundColor = "red";
+      } else {
+        td2.style.backgroundColor = "green";
+      }
+      let td3 = document.createElement("td");
+      td3.innerText = "Delete";
+      td3.style.backgroundColor = "red";
+      td3.addEventListener("click", function () {
+        deleteFav(elem, i);
+      });
+
+      row.append(td1, td2, td3);
+
+      document.querySelector("tbody").append(row);
+    });
+  }
+
+  function deleteFav(elem, i) {
+    fav.splice(i, 1);
+    displayTable(fav);
+    localStorage.setItem("favourites", JSON.stringify(fav));
+  }
+</script>
